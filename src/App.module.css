@@ -1,0 +1,219 @@
+.shell {
+  min-height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding:
+    calc(1rem + var(--safe-top))
+    calc(1rem + var(--safe-right))
+    calc(1rem + var(--safe-bottom))
+    calc(1rem + var(--safe-left));
+}
+
+.center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel {
+  width: min(440px, 100%);
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.92), rgba(15, 23, 42, 0.88));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 0 0 1px rgba(94, 234, 212, 0.05), 0 20px 50px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+}
+
+.panelWide {
+  width: min(520px, 100%);
+  max-height: min(90vh, 900px);
+  overflow: auto;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 10vw, 4rem);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-align: center;
+  margin: 0 0 0.35rem;
+  color: var(--accent);
+  text-shadow: 0 0 24px var(--glow);
+}
+
+.tagline {
+  text-align: center;
+  color: var(--text-muted);
+  margin: 0 0 1.75rem;
+  font-size: 0.95rem;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.75rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(30, 41, 59, 0.85);
+  color: var(--text);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+}
+
+.btn:hover {
+  background: rgba(51, 65, 85, 0.9);
+  border-color: rgba(94, 234, 212, 0.4);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.75rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(94, 234, 212, 0.55);
+  background: linear-gradient(135deg, rgba(94, 234, 212, 0.25), rgba(125, 211, 252, 0.15));
+  color: #ecfeff;
+  font-weight: 650;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+}
+
+.btnPrimary:hover {
+  background: linear-gradient(135deg, rgba(94, 234, 212, 0.35), rgba(125, 211, 252, 0.22));
+}
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.75rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+.btnDanger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.75rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(251, 113, 133, 0.45);
+  background: rgba(30, 41, 59, 0.85);
+  color: #fecdd3;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  font-size: 1.45rem;
+  letter-spacing: 0.04em;
+}
+
+.subtitle {
+  margin: 0 0 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.field select,
+.field input[type='range'] {
+  width: 100%;
+}
+
+.field select {
+  min-height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0b1220;
+  padding: 0.55rem 0.75rem;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 44px;
+  color: var(--text);
+}
+
+.check input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--accent);
+}
+
+.segment {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 0.5rem;
+}
+
+.segment button {
+  min-height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0b1220;
+}
+
+.segment button[aria-pressed='true'] {
+  border-color: rgba(94, 234, 212, 0.65);
+  background: rgba(94, 234, 212, 0.15);
+  color: #ecfeff;
+}
+
+.hint {
+  margin-top: 1rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(125, 211, 252, 0.08);
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.rangeValue {
+  font-size: 0.8rem;
+  color: var(--accent);
+}
