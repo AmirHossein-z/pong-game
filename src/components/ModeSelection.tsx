@@ -1,5 +1,17 @@
-import styles from '../App.module.css'
-import type { Difficulty, GameMode, GameSettings, KeyboardScheme, Side, WinningScore } from '../game/types'
+import Alert from '@mui/material/Alert'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Paper from '@mui/material/Paper'
+import Select from '@mui/material/Select'
+import Stack from '@mui/material/Stack'
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+import Typography from '@mui/material/Typography'
+import { centerSx, panelSx } from '../theme'
+import type { Difficulty, GameSettings, WinningScore } from '../game/types'
 
 interface ModeSelectionProps {
   settings: GameSettings
@@ -7,6 +19,17 @@ interface ModeSelectionProps {
   onBack: () => void
   onStart: () => void
   onOpenSettings: () => void
+}
+
+function Field({ label, id, children }: { label: string; id: string; children: React.ReactNode }) {
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', mb: '1rem' }}>
+      <Typography id={id} sx={{ fontSize: '0.85rem', color: 'text.secondary' }}>
+        {label}
+      </Typography>
+      {children}
+    </Box>
+  )
 }
 
 export function ModeSelection({
@@ -17,95 +40,80 @@ export function ModeSelection({
   onOpenSettings,
 }: ModeSelectionProps) {
   return (
-    <div className={styles.center}>
-      <div className={styles.panel}>
-        <h2 className={styles.title}>Choose mode</h2>
-        <p className={styles.subtitle}>Pick how you want to play, then start the match.</p>
+    <Box sx={centerSx}>
+      <Paper elevation={0} sx={panelSx}>
+        <Typography variant="h5" component="h2" sx={{ mb: '0.5rem', letterSpacing: '0.04em' }}>
+          Choose mode
+        </Typography>
+        <Typography sx={{ mb: '1.25rem', color: 'text.secondary', fontSize: '0.92rem' }}>
+          Pick how you want to play, then start the match.
+        </Typography>
 
-        <div className={styles.field}>
-          <span id="mode-label">Game mode</span>
-          <div className={styles.segment} role="group" aria-labelledby="mode-label">
-            <button
-              type="button"
-              aria-pressed={settings.mode === 'onePlayer'}
-              onClick={() => onChange({ mode: 'onePlayer' satisfies GameMode })}
-            >
-              1 Player
-            </button>
-            <button
-              type="button"
-              aria-pressed={settings.mode === 'twoPlayer'}
-              onClick={() => onChange({ mode: 'twoPlayer' })}
-            >
-              2 Players
-            </button>
-          </div>
-        </div>
+        <Field label="Game mode" id="mode-label">
+          <ToggleButtonGroup
+            exclusive
+            fullWidth
+            value={settings.mode}
+            aria-labelledby="mode-label"
+            onChange={(_, v) => v != null && onChange({ mode: v })}
+          >
+            <ToggleButton value="onePlayer">1 Player</ToggleButton>
+            <ToggleButton value="twoPlayer">2 Players</ToggleButton>
+          </ToggleButtonGroup>
+        </Field>
 
         {settings.mode === 'onePlayer' && (
           <>
-            <div className={styles.field}>
-              <span id="diff-label">Computer difficulty</span>
-              <div className={styles.segment} role="group" aria-labelledby="diff-label">
+            <Field label="Computer difficulty" id="diff-label">
+              <ToggleButtonGroup
+                exclusive
+                fullWidth
+                value={settings.difficulty}
+                aria-labelledby="diff-label"
+                onChange={(_, v) => v != null && onChange({ difficulty: v })}
+              >
                 {(['easy', 'medium', 'hard'] as Difficulty[]).map((d) => (
-                  <button
-                    key={d}
-                    type="button"
-                    aria-pressed={settings.difficulty === d}
-                    onClick={() => onChange({ difficulty: d })}
-                  >
+                  <ToggleButton key={d} value={d}>
                     {d[0]!.toUpperCase() + d.slice(1)}
-                  </button>
+                  </ToggleButton>
                 ))}
-              </div>
-            </div>
+              </ToggleButtonGroup>
+            </Field>
 
-            <div className={styles.field}>
-              <span id="scheme-label">Your keyboard</span>
-              <div className={styles.segment} role="group" aria-labelledby="scheme-label">
-                <button
-                  type="button"
-                  aria-pressed={settings.keyboardScheme === 'arrows'}
-                  onClick={() => onChange({ keyboardScheme: 'arrows' satisfies KeyboardScheme })}
-                >
-                  ↑ ↓
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={settings.keyboardScheme === 'wasd'}
-                  onClick={() => onChange({ keyboardScheme: 'wasd' })}
-                >
-                  W S
-                </button>
-              </div>
-            </div>
+            <Field label="Your keyboard" id="scheme-label">
+              <ToggleButtonGroup
+                exclusive
+                fullWidth
+                value={settings.keyboardScheme}
+                aria-labelledby="scheme-label"
+                onChange={(_, v) => v != null && onChange({ keyboardScheme: v })}
+              >
+                <ToggleButton value="arrows">↑ ↓</ToggleButton>
+                <ToggleButton value="wasd">W S</ToggleButton>
+              </ToggleButtonGroup>
+            </Field>
 
-            <div className={styles.field}>
-              <span id="side-label">Your side</span>
-              <div className={styles.segment} role="group" aria-labelledby="side-label">
-                <button
-                  type="button"
-                  aria-pressed={settings.humanSide === 'left'}
-                  onClick={() => onChange({ humanSide: 'left' satisfies Side })}
-                >
-                  Left
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={settings.humanSide === 'right'}
-                  onClick={() => onChange({ humanSide: 'right' })}
-                >
-                  Right
-                </button>
-              </div>
-            </div>
+            <Field label="Your side" id="side-label">
+              <ToggleButtonGroup
+                exclusive
+                fullWidth
+                value={settings.humanSide}
+                aria-labelledby="side-label"
+                onChange={(_, v) => v != null && onChange({ humanSide: v })}
+              >
+                <ToggleButton value="left">Left</ToggleButton>
+                <ToggleButton value="right">Right</ToggleButton>
+              </ToggleButtonGroup>
+            </Field>
           </>
         )}
 
-        <div className={styles.field}>
-          <label htmlFor="winning-score">Winning score</label>
-          <select
+        <FormControl fullWidth sx={{ mb: '1rem' }}>
+          <InputLabel id="winning-score-label">Winning score</InputLabel>
+          <Select
+            labelId="winning-score-label"
             id="winning-score"
+            label="Winning score"
             value={String(settings.winningScore)}
             onChange={(e) => {
               const v = e.target.value
@@ -113,33 +121,43 @@ export function ModeSelection({
               onChange({ winningScore })
             }}
           >
-            <option value="5">5</option>
-            <option value="7">7</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="endless">Endless</option>
-          </select>
-        </div>
+            <MenuItem value="5">5</MenuItem>
+            <MenuItem value="7">7</MenuItem>
+            <MenuItem value="10">10</MenuItem>
+            <MenuItem value="15">15</MenuItem>
+            <MenuItem value="endless">Endless</MenuItem>
+          </Select>
+        </FormControl>
 
         {settings.mode === 'twoPlayer' && (
-          <div className={styles.hint}>
+          <Alert
+            icon={false}
+            severity="info"
+            sx={{
+              background: 'rgba(125, 211, 252, 0.08)',
+              border: '1px solid rgba(125, 211, 252, 0.2)',
+              color: 'text.secondary',
+              fontSize: '0.85rem',
+              borderRadius: '10px',
+            }}
+          >
             Desktop: Left player uses W/S, Right player uses Arrow keys. On touch devices, each
             side gets Up/Down buttons — landscape works best.
-          </div>
+          </Alert>
         )}
 
-        <div className={styles.stack} style={{ marginTop: '1.25rem' }}>
-          <button type="button" className={styles.btnPrimary} onClick={onStart}>
+        <Stack spacing={1.5} sx={{ mt: '1.25rem' }}>
+          <Button variant="contained" color="primary" onClick={onStart}>
             Start match
-          </button>
-          <button type="button" className={styles.btn} onClick={onOpenSettings}>
+          </Button>
+          <Button variant="contained" color="inherit" onClick={onOpenSettings}>
             More settings
-          </button>
-          <button type="button" className={styles.btnGhost} onClick={onBack}>
+          </Button>
+          <Button variant="outlined" color="inherit" onClick={onBack}>
             Back
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </Stack>
+      </Paper>
+    </Box>
   )
 }

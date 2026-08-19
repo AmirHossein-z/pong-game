@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import styles from './App.module.css'
+import Box from '@mui/material/Box'
 import { GameScreen } from './components/GameScreen'
 import { MainMenu } from './components/MainMenu'
 import { ModeSelection } from './components/ModeSelection'
@@ -29,8 +29,15 @@ export default function App() {
   }
 
   return (
-    <div
-      className={styles.shell}
+    <Box
+      sx={{
+        minHeight: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        padding:
+          'calc(1rem + var(--safe-top)) calc(1rem + var(--safe-right)) calc(1rem + var(--safe-bottom)) calc(1rem + var(--safe-left))',
+      }}
       onPointerDown={unlockAudio}
       onKeyDown={unlockAudio}
     >
@@ -92,6 +99,6 @@ export default function App() {
           onExitToMenu={() => setScreen('menu')}
         />
       )}
-    </div>
+    </Box>
   )
 }

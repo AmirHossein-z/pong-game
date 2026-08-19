@@ -9,8 +9,8 @@ export const BALL_RADIUS = 8
 
 export const DEFAULT_PADDLE_SPEED = 380
 export const DEFAULT_BALL_BASE_SPEED = 320
-export const DEFAULT_BALL_ACCELERATION = 18
-export const MAX_BALL_SPEED = 720
+export const DEFAULT_BALL_ACCELERATION = 42
+export const MAX_BALL_SPEED = 1000
 
 export const MAX_BOUNCE_ANGLE = (75 * Math.PI) / 180
 export const MIN_SERVE_HORIZONTAL_RATIO = 0.55
@@ -28,4 +28,4 @@ export const PADDLE_SPEED_MAX = 520
 export const BALL_SPEED_MIN = 200
 export const BALL_SPEED_MAX = 480
 export const ACCEL_MIN = 8
-export const ACCEL_MAX = 40
+export const ACCEL_MAX = 90

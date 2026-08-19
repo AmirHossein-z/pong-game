@@ -1,4 +1,12 @@
-import styles from '../App.module.css'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Paper from '@mui/material/Paper'
+import Slider from '@mui/material/Slider'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import { centerSx, panelSx } from '../theme'
 import {
   ACCEL_MAX,
   ACCEL_MIN,
@@ -15,109 +23,126 @@ interface SettingsPanelProps {
   onBack: () => void
 }
 
-export function SettingsPanel({ settings, onChange, onBack }: SettingsPanelProps) {
+function SliderField({
+  id,
+  label,
+  value,
+  min,
+  max,
+  onChange,
+}: {
+  id: string
+  label: string
+  value: number
+  min: number
+  max: number
+  onChange: (value: number) => void
+}) {
   return (
-    <div className={styles.center}>
-      <div className={`${styles.panel} ${styles.panelWide}`}>
-        <h2 className={styles.title}>Settings</h2>
-        <p className={styles.subtitle}>Preferences are saved on this device.</p>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.15rem', mb: '0.75rem' }}>
+      <Typography
+        component="label"
+        htmlFor={id}
+        sx={{ fontSize: '0.85rem', color: 'text.secondary' }}
+      >
+        {label}{' '}
+        <Box component="span" sx={{ fontSize: '0.8rem', color: 'primary.main' }}>
+          {Math.round(value)}
+        </Box>
+      </Typography>
+      <Slider
+        id={id}
+        size="small"
+        min={min}
+        max={max}
+        value={value}
+        onChange={(_, v) => onChange(v as number)}
+      />
+    </Box>
+  )
+}
 
-        <label className={styles.check}>
-          <input
-            type="checkbox"
-            checked={settings.soundEnabled}
-            onChange={(e) => onChange({ soundEnabled: e.target.checked })}
-          />
-          Sound
-        </label>
+type BooleanSettingKey =
+  | 'soundEnabled'
+  | 'reducedMotion'
+  | 'touchControlsVisible'
+  | 'screenShake'
+  | 'showCenterLine'
 
-        <label className={styles.check}>
-          <input
-            type="checkbox"
-            checked={settings.reducedMotion}
-            onChange={(e) => onChange({ reducedMotion: e.target.checked })}
-          />
-          Reduced motion
-        </label>
+export function SettingsPanel({ settings, onChange, onBack }: SettingsPanelProps) {
+  const toggles: Array<{ key: BooleanSettingKey; label: string }> = [
+    { key: 'soundEnabled', label: 'Sound' },
+    { key: 'reducedMotion', label: 'Reduced motion' },
+    { key: 'touchControlsVisible', label: 'Show touch controls when available' },
+    { key: 'screenShake', label: 'Screen shake on hits' },
+    { key: 'showCenterLine', label: 'Show center line' },
+  ]
 
-        <label className={styles.check}>
-          <input
-            type="checkbox"
-            checked={settings.touchControlsVisible}
-            onChange={(e) => onChange({ touchControlsVisible: e.target.checked })}
-          />
-          Show touch controls when available
-        </label>
+  return (
+    <Box sx={centerSx}>
+      <Paper
+        elevation={0}
+        sx={{
+          ...panelSx,
+          width: 'min(520px, 100%)',
+          maxHeight: 'min(90vh, 900px)',
+          overflow: 'auto',
+        }}
+      >
+        <Typography variant="h5" component="h2" sx={{ mb: '0.5rem', letterSpacing: '0.04em' }}>
+          Settings
+        </Typography>
+        <Typography sx={{ mb: '1.25rem', color: 'text.secondary', fontSize: '0.92rem' }}>
+          Preferences are saved on this device.
+        </Typography>
 
-        <label className={styles.check}>
-          <input
-            type="checkbox"
-            checked={settings.screenShake}
-            onChange={(e) => onChange({ screenShake: e.target.checked })}
-          />
-          Screen shake on hits
-        </label>
+        <Stack sx={{ mb: '1rem' }}>
+          {toggles.map(({ key, label }) => (
+            <FormControlLabel
+              key={key}
+              sx={{ minHeight: 44, ml: 0 }}
+              control={
+                <Checkbox
+                  checked={settings[key]}
+                  onChange={(e) => onChange({ [key]: e.target.checked })}
+                />
+              }
+              label={label}
+            />
+          ))}
+        </Stack>
 
-        <label className={styles.check}>
-          <input
-            type="checkbox"
-            checked={settings.showCenterLine}
-            onChange={(e) => onChange({ showCenterLine: e.target.checked })}
-          />
-          Show center line
-        </label>
+        <SliderField
+          id="ball-speed"
+          label="Ball starting speed"
+          value={settings.ballBaseSpeed}
+          min={BALL_SPEED_MIN}
+          max={BALL_SPEED_MAX}
+          onChange={(v) => onChange({ ballBaseSpeed: v })}
+        />
+        <SliderField
+          id="paddle-speed"
+          label="Paddle speed"
+          value={settings.paddleSpeed}
+          min={PADDLE_SPEED_MIN}
+          max={PADDLE_SPEED_MAX}
+          onChange={(v) => onChange({ paddleSpeed: v })}
+        />
+        <SliderField
+          id="accel"
+          label="Ball acceleration"
+          value={settings.ballAcceleration}
+          min={ACCEL_MIN}
+          max={ACCEL_MAX}
+          onChange={(v) => onChange({ ballAcceleration: v })}
+        />
 
-        <div className={styles.field}>
-          <label htmlFor="ball-speed">
-            Ball starting speed{' '}
-            <span className={styles.rangeValue}>{Math.round(settings.ballBaseSpeed)}</span>
-          </label>
-          <input
-            id="ball-speed"
-            type="range"
-            min={BALL_SPEED_MIN}
-            max={BALL_SPEED_MAX}
-            value={settings.ballBaseSpeed}
-            onChange={(e) => onChange({ ballBaseSpeed: Number(e.target.value) })}
-          />
-        </div>
-
-        <div className={styles.field}>
-          <label htmlFor="paddle-speed">
-            Paddle speed{' '}
-            <span className={styles.rangeValue}>{Math.round(settings.paddleSpeed)}</span>
-          </label>
-          <input
-            id="paddle-speed"
-            type="range"
-            min={PADDLE_SPEED_MIN}
-            max={PADDLE_SPEED_MAX}
-            value={settings.paddleSpeed}
-            onChange={(e) => onChange({ paddleSpeed: Number(e.target.value) })}
-          />
-        </div>
-
-        <div className={styles.field}>
-          <label htmlFor="accel">
-            Ball acceleration{' '}
-            <span className={styles.rangeValue}>{Math.round(settings.ballAcceleration)}</span>
-          </label>
-          <input
-            id="accel"
-            type="range"
-            min={ACCEL_MIN}
-            max={ACCEL_MAX}
-            value={settings.ballAcceleration}
-            onChange={(e) => onChange({ ballAcceleration: Number(e.target.value) })}
-          />
-        </div>
-
-        <div className={styles.stack} style={{ marginTop: '1rem' }}>
-          <button type="button" className={styles.btnPrimary} onClick={onBack}>
+        <Stack sx={{ mt: '1rem' }}>
+          <Button variant="contained" color="primary" onClick={onBack}>
             Done
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </Stack>
+      </Paper>
+    </Box>
   )
 }

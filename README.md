@@ -1,6 +1,8 @@
 # Pong
 
-A polished, fully client-side Pong game built with React, Vite, TypeScript, and HTML Canvas.
+A polished, fully client-side Pong game built with React, Vite, TypeScript, and HTML Canvas. UI components (menus, overlays, dialogs, settings) are built with [Material UI](https://mui.com/), themed to the game's custom dark palette.
+
+> **Note:** This is a vibe-coded project — it was built iteratively with AI assistance rather than from a formal spec. Treat the code as exploratory.
 
 ## Features
 
@@ -82,14 +84,16 @@ First to the selected score wins (5 / 7 / 10 / 15), or play endless until you ex
 
 ```
 src/
-  components/   # Menus, overlays, touch UI, game screen
+  components/   # Menus, overlays, touch UI, game screen (Material UI)
   game/         # Engine, loop, physics, collision, AI, input, audio, renderer
   hooks/        # Engine bridge, settings, visibility, orientation
   store/        # Settings defaults + safe localStorage parse
   styles/       # Global tokens
+  theme.ts      # Material UI theme mapped to the game's palette
 ```
 
 - **React** owns navigation, settings, and discrete events (score, pause, game over).
+- **Material UI** provides all interactive UI widgets (buttons, toggles, sliders, selects, dialogs, alerts); `src/theme.ts` maps the original color palette onto the MUI theme so the look is unchanged.
 - **GameEngine** owns the rAF loop, physics state (refs/mutable objects), and canvas drawing.
 - React does **not** re-render every frame.
 - Input is action-based (`LEFT_UP`, `RIGHT_DOWN`, `PAUSE`, …) so keyboard, touch, and AI share one interface.

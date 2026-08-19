@@ -1,5 +1,9 @@
-import app from '../App.module.css'
-import styles from './GameScreen.module.css'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 interface ConfirmDialogProps {
   title: string
@@ -17,29 +21,27 @@ export function ConfirmDialog({
   onCancel,
 }: ConfirmDialogProps) {
   return (
-    <div className={styles.dialogBackdrop} role="presentation">
-      <div
-        className={styles.dialog}
-        role="alertdialog"
-        aria-modal="true"
-        aria-labelledby="confirm-title"
-        aria-describedby="confirm-desc"
-      >
-        <h2 id="confirm-title" className={styles.overlayTitle}>
-          {title}
-        </h2>
-        <p id="confirm-desc" className={styles.overlayText}>
-          {message}
-        </p>
-        <div className={styles.actions}>
-          <button type="button" className={app.btnDanger} onClick={onConfirm}>
-            {confirmLabel}
-          </button>
-          <button type="button" className={app.btnGhost} onClick={onCancel}>
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
+    <Dialog
+      open
+      onClose={onCancel}
+      role="alertdialog"
+      aria-labelledby="confirm-title"
+      aria-describedby="confirm-desc"
+    >
+      <DialogTitle id="confirm-title" sx={{ letterSpacing: '0.04em' }}>
+        {title}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="confirm-desc">{message}</DialogContentText>
+      </DialogContent>
+      <DialogActions sx={{ justifyContent: 'center', pb: 2, gap: 0.5, flexWrap: 'wrap' }}>
+        <Button variant="outlined" color="error" onClick={onConfirm}>
+          {confirmLabel}
+        </Button>
+        <Button variant="outlined" color="inherit" onClick={onCancel}>
+          Cancel
+        </Button>
+      </DialogActions>
+    </Dialog>
   )
 }

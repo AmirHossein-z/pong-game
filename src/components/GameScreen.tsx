@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import app from '../App.module.css'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
 import styles from './GameScreen.module.css'
 import { ConfirmDialog } from './ConfirmDialog'
 import { CountdownOverlay } from './CountdownOverlay'
@@ -19,6 +20,16 @@ interface GameScreenProps {
   settings: GameSettings
   onExitToMenu: () => void
 }
+
+const iconBtnSx = {
+  minWidth: 48,
+  minHeight: 48,
+  borderRadius: '12px',
+  border: '1px solid rgba(148, 163, 184, 0.22)',
+  background: 'rgba(15, 23, 42, 0.85)',
+  color: 'text.primary',
+  fontSize: '1.1rem',
+} as const
 
 export function GameScreen({ settings, onExitToMenu }: GameScreenProps) {
   const { engineRef, ui, setUi } = useGameEngine(settings, true)
@@ -141,18 +152,16 @@ export function GameScreen({ settings, onExitToMenu }: GameScreenProps) {
       />
 
       <div className={styles.topBar}>
-        <button
-          type="button"
-          className={styles.iconBtn}
+        <IconButton
+          sx={iconBtnSx}
           aria-label={ui.status === 'paused' ? 'Resume game' : 'Pause game'}
           onClick={togglePause}
         >
           {ui.status === 'paused' ? '▶' : '❚❚'}
-        </button>
+        </IconButton>
         <Scoreboard score={ui.score} leftLabel={leftLabel} rightLabel={rightLabel} />
-        <button
-          type="button"
-          className={styles.iconBtn}
+        <IconButton
+          sx={iconBtnSx}
           aria-label="Pause and open menu"
           onClick={() => {
             engineRef.current?.pause()
@@ -160,7 +169,7 @@ export function GameScreen({ settings, onExitToMenu }: GameScreenProps) {
           }}
         >
           ☰
-        </button>
+        </IconButton>
       </div>
 
       <div className={styles.playArea}>
@@ -185,11 +194,22 @@ export function GameScreen({ settings, onExitToMenu }: GameScreenProps) {
       </div>
 
       {ui.status === 'countdown' && (
-        <p className={app.hint} style={{ marginTop: 0 }}>
+        <Typography
+          sx={{
+            p: '0.75rem 0.85rem',
+            borderRadius: '10px',
+            background: 'rgba(125, 211, 252, 0.08)',
+            border: '1px solid rgba(125, 211, 252, 0.2)',
+            color: 'text.secondary',
+            fontSize: '0.85rem',
+            lineHeight: 1.4,
+            textAlign: 'center',
+          }}
+        >
           {settings.mode === 'twoPlayer'
             ? 'Left: W/S or touch · Right: Arrows or touch · Esc/P pause'
             : `Controls: ${settings.keyboardScheme === 'wasd' ? 'W/S' : 'Arrow keys'} · Esc/P pause`}
-        </p>
+        </Typography>
       )}
 
       <div className="sr-only" aria-live="polite" aria-atomic="true">

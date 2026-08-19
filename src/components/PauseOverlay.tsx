@@ -1,5 +1,8 @@
-import app from '../App.module.css'
-import styles from './GameScreen.module.css'
+import Button from '@mui/material/Button'
+import Paper from '@mui/material/Paper'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import { overlayCardSx, overlayTitleSx, overlayTextSx } from '../theme'
 
 interface PauseOverlayProps {
   onResume: () => void
@@ -9,20 +12,27 @@ interface PauseOverlayProps {
 
 export function PauseOverlay({ onResume, onRestart, onMenu }: PauseOverlayProps) {
   return (
-    <div className={styles.overlayCard} role="dialog" aria-modal="true" aria-label="Paused">
-      <h2 className={styles.overlayTitle}>Paused</h2>
-      <p className={styles.overlayText}>Press Esc or P to resume.</p>
-      <div className={styles.actions}>
-        <button type="button" className={app.btnPrimary} onClick={onResume}>
+    <Paper elevation={0} sx={overlayCardSx} role="dialog" aria-modal="true" aria-label="Paused">
+      <Typography variant="h4" component="h2" sx={overlayTitleSx}>
+        Paused
+      </Typography>
+      <Typography sx={overlayTextSx}>Press Esc or P to resume.</Typography>
+      <Stack
+        direction="row"
+        spacing={1}
+        useFlexGap
+        sx={{ flexWrap: 'wrap', justifyContent: 'center' }}
+      >
+        <Button variant="contained" color="primary" onClick={onResume}>
           Resume
-        </button>
-        <button type="button" className={app.btn} onClick={onRestart}>
+        </Button>
+        <Button variant="contained" color="inherit" onClick={onRestart}>
           Restart
-        </button>
-        <button type="button" className={app.btnGhost} onClick={onMenu}>
+        </Button>
+        <Button variant="outlined" color="inherit" onClick={onMenu}>
           Main menu
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Stack>
+    </Paper>
   )
 }
