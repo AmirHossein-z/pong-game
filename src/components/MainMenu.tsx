@@ -10,7 +10,7 @@ export function MainMenu({ onPlay, onSettings }: MainMenuProps) {
     <div className={styles.center}>
       <div className={styles.panel}>
         <h1 className={styles.brand}>PONG</h1>
-        <p className={styles.tagline}>Retro-modern arcade. Local play only.</p>
+        <p className={styles.tagline}>Retro-modern arcade.</p>
         <div className={styles.stack}>
           <button type="button" className={styles.btnPrimary} onClick={onPlay}>
             Play

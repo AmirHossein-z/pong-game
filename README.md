@@ -107,21 +107,6 @@ src/
 - Easy mostly tracks the live ball; Medium/Hard predict trajectory (with wall folds) and add error/mistakes.
 - AI paddle speed is capped by difficulty and never exceeds the shared physical max.
 
-## Manual testing checklist
-
-- [ ] Simultaneous W/S and Arrow keys in two-player mode
-- [ ] Two fingers controlling both touch columns at once
-- [ ] Resize window / rotate device mid-rally
-- [ ] Portrait notice on phone; landscape still playable
-- [ ] Smooth feel on 60 Hz and high-refresh displays
-- [ ] Tab switch auto-pauses
-- [ ] No page scrolling while holding touch controls
-- [ ] Pointer cancel releases paddle movement
-- [ ] Corrupt `localStorage` (`pong-settings-v1`) falls back to defaults
-- [ ] Reduced motion disables shake / particles / trail
-- [ ] Rematch resets scores and countdown
-- [ ] Sound unlocks after first click/tap; mute works
-
 ## License
 
 Hobby project — free to use and modify.
