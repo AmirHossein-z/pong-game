@@ -204,6 +204,11 @@ export function GameScreen({ settings, onExitToMenu }: GameScreenProps) {
             fontSize: '0.85rem',
             lineHeight: 1.4,
             textAlign: 'center',
+            // In compact landscape the court gets every pixel of height;
+            // this hint would shrink it and cause a jump after countdown.
+            '@media (orientation: landscape) and (max-height: 480px)': {
+              display: 'none',
+            },
           }}
         >
           {settings.mode === 'twoPlayer'

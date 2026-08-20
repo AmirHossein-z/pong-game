@@ -6,6 +6,7 @@ import { ModeSelection } from './components/ModeSelection'
 import { SettingsPanel } from './components/SettingsPanel'
 import { getAudioManager } from './game/AudioManager'
 import { useLocalStorageSettings } from './hooks/useLocalStorageSettings'
+import { enterFullscreen, exitFullscreen } from './utils/fullscreen'
 import type { AppScreen } from './game/types'
 
 export default function App() {
@@ -37,6 +38,10 @@ export default function App() {
         flexDirection: 'column',
         padding:
           'calc(1rem + var(--safe-top)) calc(1rem + var(--safe-right)) calc(1rem + var(--safe-bottom)) calc(1rem + var(--safe-left))',
+        '@media (orientation: landscape) and (max-height: 480px)': {
+          padding:
+            'calc(0.25rem + var(--safe-top)) calc(0.5rem + var(--safe-right)) calc(0.25rem + var(--safe-bottom)) calc(0.5rem + var(--safe-left))',
+        },
       }}
       onPointerDown={unlockAudio}
       onKeyDown={unlockAudio}
@@ -65,6 +70,10 @@ export default function App() {
           }}
           onStart={() => {
             unlockAudio()
+            // Must run inside the tap gesture for the browser to allow it.
+            if (window.matchMedia('(pointer: coarse)').matches) {
+              void enterFullscreen()
+            }
             setScreen('playing')
           }}
           onOpenSettings={() => {
@@ -96,7 +105,10 @@ export default function App() {
       {screen === 'playing' && (
         <GameScreen
           settings={settings}
-          onExitToMenu={() => setScreen('menu')}
+          onExitToMenu={() => {
+            exitFullscreen()
+            setScreen('menu')
+          }}
         />
       )}
     </Box>

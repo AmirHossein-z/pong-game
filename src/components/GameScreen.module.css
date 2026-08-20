@@ -2,6 +2,7 @@
    scoreboard, dialogs) are Material UI components styled via the theme. */
 
 .screen {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -58,4 +59,28 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
+}
+
+/* Compact landscape (phones): float the top bar over the court so the
+   full viewport height goes to the play area. */
+@media (orientation: landscape) and (max-height: 480px) {
+  .screen {
+    gap: 0.25rem;
+  }
+
+  .topBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Only the pause/menu buttons are interactive; the scoreboard in the
+     middle stays click-through so it doesn't swallow canvas touches. */
+  .topBar > :first-child,
+  .topBar > :last-child {
+    pointer-events: auto;
+  }
 }
